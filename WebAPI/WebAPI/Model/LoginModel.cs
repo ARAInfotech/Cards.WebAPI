@@ -17,11 +17,11 @@ namespace WebAPI.Model
         public string Username { get; set; }
         #endregion
 
-        #region EncPassword
+        #region Password
         /// <summary>
-        /// EncryptedPassword
+        /// Password
         /// </summary>
-        public string EncPassword { get; set; }
+        public string Password { get; set; }
         #endregion
     }
     #endregion

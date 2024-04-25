@@ -38,6 +38,16 @@ namespace WebAPI.BLL.Interface.Login
         /// <returns></returns>
         public bool ResetPassword(string username, string newPassword);
         #endregion
+
+        #region ChangePassword
+        /// <summary>
+        /// ChangePassword
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        public bool ChangePassword(string username, string newPassword, string oldPassword);
+        #endregion
     }
     #endregion
 }
