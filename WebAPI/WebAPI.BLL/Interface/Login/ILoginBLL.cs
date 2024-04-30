@@ -17,7 +17,7 @@ namespace WebAPI.BLL.Interface.Login
         /// <param name="username"></param>
         /// <param name="encryptedPassword"></param>
         /// <returns></returns>
-        public UserDomain Login(string username, string encryptedPassword);
+        UserDomain Login(string username, string encryptedPassword);
         #endregion
 
         #region SignIn
@@ -26,7 +26,7 @@ namespace WebAPI.BLL.Interface.Login
         /// </summary>
         /// <param name="newUser"></param>
         /// <returns></returns>
-        public bool SignIn(UserDomain newUser);
+        bool SignIn(UserDomain newUser);
         #endregion
 
         #region ResetPassword
@@ -36,7 +36,7 @@ namespace WebAPI.BLL.Interface.Login
         /// <param name="username"></param>
         /// <param name="newPassword"></param>
         /// <returns></returns>
-        public bool ResetPassword(string username, string newPassword);
+        bool ResetPassword(string username, string newPassword);
         #endregion
 
         #region ChangePassword
@@ -45,8 +45,18 @@ namespace WebAPI.BLL.Interface.Login
         /// </summary>
         /// <param name="username"></param>
         /// <param name="newPassword"></param>
+        /// <param name="oldPassword"></param>
         /// <returns></returns>
-        public bool ChangePassword(string username, string newPassword, string oldPassword);
+        bool ChangePassword(string username, string newPassword, string oldPassword);
+        #endregion
+
+        #region UsernameExists
+        /// <summary>
+        /// UsernameExists
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        bool UsernameExists(string username);
         #endregion
     }
     #endregion

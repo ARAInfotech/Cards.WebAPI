@@ -4,6 +4,7 @@ using System.Linq;
 using WebAPI.BLL.Interface.Login;
 using WebAPI.DAL;
 using WebAPI.DAL.Interface;
+using WebAPI.Domain;
 using WebApp.Domain;
 #endregion
 
@@ -37,9 +38,9 @@ namespace WebAPI.BLL
 
         #region Public Methods
 
-        #region GetUserData
+        #region Login
         /// <summary>
-        /// GetUserData
+        /// Login
         /// </summary>
         /// <param name="username"></param>
         /// <param name="encryptedPassword"></param>
@@ -110,6 +111,24 @@ namespace WebAPI.BLL
             param.Add("@OldPassword", oldPassword);
 
             return _iDALRepository.Add("[dbo].[UserPasswordUpdate]", param);
+        }
+        #endregion
+
+        #region UsernameExists
+        /// <summary>
+        /// UsernameExists
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public bool UsernameExists(string username)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@Username", username); 
+            
+            UserNameExistsDomain user = _iDALRepository.Select<UserNameExistsDomain>("[dbo].[UserByUsernameSelect]", param).FirstOrDefault();
+
+            return user.UserNameExists;
         }
         #endregion
 

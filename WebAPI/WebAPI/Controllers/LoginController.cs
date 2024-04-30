@@ -8,6 +8,7 @@ using System.Text;
 using Utilities;
 using WebAPI.BLL.Interface.Login;
 using WebAPI.Common;
+using WebAPI.Domain;
 using WebAPI.Helpers;
 using WebAPI.Interface;
 using WebAPI.Model;
@@ -184,6 +185,32 @@ namespace WebAPI.Controllers
         public APIReturnModel<bool> ForgetPassword(string username)
         {
             throw new NotImplementedException();
+        }
+        #endregion
+
+        #region UsernameStatus
+        /// <summary>
+        /// UsernameStatus
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        [HttpGet("UsernameStatus")]
+        public APIReturnModel<bool> UsernameStatus(string username)
+        {
+            APIReturnModel<bool> response = new APIReturnModel<bool>();
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                bool userNameExists = this._login.UsernameExists(username);
+
+                response = ReturnData.SuccessResponse<bool>(userNameExists);
+            }
+            else
+            {
+                response = ReturnData.InvalidRequestResponse<bool>();
+            }
+
+            return response;
         }
         #endregion
 
