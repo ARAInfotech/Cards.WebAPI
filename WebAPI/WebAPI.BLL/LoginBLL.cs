@@ -4,6 +4,7 @@ using System.Linq;
 using WebAPI.BLL.Interface.Login;
 using WebAPI.DAL;
 using WebAPI.DAL.Interface;
+using WebAPI.Domain;
 using WebApp.Domain;
 #endregion
 
@@ -37,9 +38,9 @@ namespace WebAPI.BLL
 
         #region Public Methods
 
-        #region GetUserData
+        #region Login
         /// <summary>
-        /// GetUserData
+        /// Login
         /// </summary>
         /// <param name="username"></param>
         /// <param name="encryptedPassword"></param>
@@ -80,7 +81,54 @@ namespace WebAPI.BLL
         {
             DynamicParameters param = new DynamicParameters();
 
-            return _iDALRepository.Add("[dbo].[UserByCredentialsSelect]", param);
+            param.Add("@Username", newUser.UserName);
+            param.Add("@Password", newUser.Password);
+            param.Add("@CreatedBy", newUser.CreatedBy);
+            param.Add("@CreatedDate", newUser.CreatedDate);
+            param.Add("@Email", newUser.Email);
+            param.Add("@FirstName", newUser.FirstName);
+            param.Add("@LastName", newUser.LastName);
+            param.Add("@MobileNumber", newUser.MobileNumber);
+            param.Add("@UserTypeID", newUser.UserTypeID);
+
+            return _iDALRepository.Add("[dbo].[UserSignInCreate]", param);
+        }
+        #endregion
+
+        #region ChangePassword
+        /// <summary>
+        /// ChangePassword
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        public bool ChangePassword(string username, string newPassword, string oldPassword)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@Username", username);
+            param.Add("@NewPassword", newPassword);
+            param.Add("@OldPassword", oldPassword);
+
+            return _iDALRepository.Add("[dbo].[UserPasswordUpdate]", param);
+        }
+        #endregion
+
+        #region UsernameExists
+        /// <summary>
+        /// UsernameExists
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public bool UsernameExists(string username)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@Username", username); 
+            
+            UserNameExistsDomain user = _iDALRepository.Select<UserNameExistsDomain>("[dbo].[UserByUsernameSelect]", param).FirstOrDefault();
+
+            return user.UserNameExists;
         }
         #endregion
 

@@ -13,7 +13,16 @@ using WebAPI.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowOrigin",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200") // Update this with your Angular app's URL
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
 builder.Services.AddControllers();
 builder.Services.AddRepository();
 builder.Services.AddAuthorization();
@@ -60,7 +69,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
-app.UseCors();
+app.UseCors("AllowOrigin");
 app.UseAuthentication();
 app.UseAuthorization();
 
