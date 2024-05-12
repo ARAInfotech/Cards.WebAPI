@@ -1,4 +1,5 @@
 ﻿#region NameSpace
+using CommunicationManager.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -36,13 +37,22 @@ namespace WebAPI.Controllers
         /// </summary>
         private ILoginBLL _login;
         #endregion
+
+        #region EmailManager
+        /// <summary>
+        /// EmailManager
+        /// </summary>
+        IEmailManager _email;
+        #endregion
+
         #endregion
 
         #region Constructor
-        public LoginController(ConfigManager.Interfaces.IConfigurationManager configurationManager, ILoginBLL loginBLL)
+        public LoginController(ConfigManager.Interfaces.IConfigurationManager configurationManager, ILoginBLL loginBLL, IEmailManager email)
         {
             _configurationManager = configurationManager;
             _login = loginBLL;
+            _email = email;
         }
         #endregion
 
@@ -83,16 +93,16 @@ namespace WebAPI.Controllers
         }
         #endregion
 
-        #region SignIn
+        #region GenerateOTP
         /// <summary>
-        /// SignIn
+        /// GenerateOTP
         /// </summary>
         /// <param name="newUser"></param>
         /// <returns></returns>
-        [HttpPost("SignIn")]
-        public APIReturnModel<bool> SignIn(SignInModel newUser)
+        [HttpPost("GenerateOTP")]
+        public APIReturnModel<string> GenerateOTP(SignInModel newUser)
         {
-            APIReturnModel<bool> response = new APIReturnModel<bool>();
+            APIReturnModel<string> response = new APIReturnModel<string>();
 
             bool status = false;
 
@@ -100,29 +110,88 @@ namespace WebAPI.Controllers
             {
                 UserDomain dom = this.MapSignInModelToUserDomain(newUser);
 
-                status = this._login.SignIn(dom);
+                OTPDomain otp= this._login.TempUserOTPCreate(dom);
 
-                if (status)
+                if (otp != null)
                 {
-                    bool sendMailStatus = this.SendRegistrationSuccessEmail(dom);
+                    bool sendMailStatus = this.SendOTPEmail(dom, otp.OTP);
 
                     if (sendMailStatus)
                     {
-                        response = ReturnData.SuccessResponse<bool>(status);
+                        response = ReturnData.SuccessResponse<string>(otp.TempUserID.Encrypt());
                     }
                     else
                     {
-                        response = ReturnData.ErrorResponse<bool>("Email sending failed.");
+                        response = ReturnData.ErrorResponse<string>("Email sending failed.");
                     }
                 }
                 else
                 {
-                    response = ReturnData.ErrorResponse<bool>("User creation failed.");
+                    response = ReturnData.ErrorResponse<string>("OTP creation failed.");
                 }
             }
             else
             {
-                response = ReturnData.InvalidRequestResponse<bool>();
+                response = ReturnData.InvalidRequestResponse<string>();
+            }
+
+            return response;
+        }
+        #endregion
+
+        #region VerifyOTP
+        /// <summary>
+        /// VerifyOTP
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost("VerifyOTP")]
+        public APIReturnModel<SignInResponseModel> VerifyOTP(SubmitOTP model)
+        {
+            APIReturnModel<SignInResponseModel> response = new APIReturnModel<SignInResponseModel>();
+
+            bool status = false;
+
+            if (model != null)
+            {
+                SubmitOTPDomain dom = this.MapSubmitOTPModelToDomain(model);
+
+                SignInResponseDomain otp = this._login.ValidateOTP(dom);
+
+                if (otp != null)
+                {
+                    if (otp.IsSuccess)
+                    {
+                        bool sendMailStatus = this.SendRegistrationSuccessEmail(new UserDomain());
+
+                        if (sendMailStatus)
+                        {
+                            SignInResponseModel otpModel = new SignInResponseModel()
+                            {
+                                Message = otp.Message,
+                                IsSuccess = otp.IsSuccess
+                            };
+
+                            response = ReturnData.SuccessResponse<SignInResponseModel>(otpModel);
+                        }
+                        else
+                        {
+                            response = ReturnData.ErrorResponse<SignInResponseModel>("Email sending failed.");
+                        }
+                    }
+                    else
+                    {
+                        response = ReturnData.ErrorResponse<SignInResponseModel>(otp.Message);
+                    }
+                }
+                else
+                {
+                    response = ReturnData.ErrorResponse<SignInResponseModel>("OTP validation failed.");
+                }
+            }
+            else
+            {
+                response = ReturnData.InvalidRequestResponse<SignInResponseModel>();
             }
 
             return response;
@@ -306,12 +375,12 @@ namespace WebAPI.Controllers
 
             dom.Email = model.Email;
             dom.UserName = model.UserName;
-            dom.CreatedBy = model.EncCreatedBy.DecryptToLong();
-            dom.CreatedDate = model.CreatedDate;
+            //dom.CreatedBy = model.EncCreatedBy.DecryptToLong();
+            //dom.CreatedDate = model.CreatedDate;
             dom.FirstName = model.FirstName;
             dom.LastName = model.LastName;
             dom.MobileNumber = model.MobileNumber;
-            dom.Password = model.Password.Encrypt();
+            dom.Password = model.Password.DecryptInput().EncryptPassword();
             dom.UserTypeID = model.EncUserTypeID.DecryptToLong();
 
             return dom;
@@ -329,9 +398,84 @@ namespace WebAPI.Controllers
         {
             return true;
         }
+        #endregion
+
+        #region SendOTPEmail
+        /// <summary>
+        /// SendOTPEmail
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="otp"></param>
+        /// <returns></returns>
+        private bool SendOTPEmail(UserDomain user, string otp)
+        {
+            EmailDomain dom = new EmailDomain();
+
+            dom.Body = this.GetOTPMailBody(user, otp);
+            dom.FromAddress = _configurationManager.GetEmailConfig("FromMailAddress");
+            dom.Subject = "Verify your email";
+            dom.ToAddress = user.Email;
+
+            return _email.SendMail(dom);
+        }
 
         #endregion
 
+        #region GetOTPMailBody
+        /// <summary>
+        /// GetOTPMailBody
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="otp"></param>
+        /// <returns></returns>
+        private string GetOTPMailBody(UserDomain user, string otp)
+        {
+            string body = string.Empty;
+            string path = AppDomain.CurrentDomain.BaseDirectory;
+
+            if (path.Contains("\\bin\\"))
+            {
+                path = path.Split("\\bin\\")[0];
+            }
+
+            path += "\\Template\\OTP.html";
+
+            try
+            {
+                string contents = System.IO.File.ReadAllText(path);
+
+                body = contents.Replace("{{Login_URL}}", _configurationManager.GetConfigValue("LoginURL"))
+                                   .Replace("{{Company_Name}}", _configurationManager.GetConfigValue("ApplicationName"))
+                                   .Replace("{{Date}}", DateTime.Today.ToShortDateString())
+                                   .Replace("{{Full_Name}}", user.FirstName + " " + user.LastName)
+                                   .Replace("{{OTP}}", otp)
+                                   .Replace("{{support_email}}", _configurationManager.GetConfigValue("ApplicationName"));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return body;
+        }
+        #endregion
+
+        #region MapSubmitOTPModelToDomain
+        /// <summary>
+        /// MapSubmitOTPModelToDomain
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private SubmitOTPDomain MapSubmitOTPModelToDomain(SubmitOTP model)
+        {
+            return new SubmitOTPDomain()
+            {
+                OTP = model.OTP,
+                UserID = Convert.ToInt32(model.UserID.Decrypt())
+            };
+        }
         #endregion
     }
+    #endregion
 }

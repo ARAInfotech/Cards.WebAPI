@@ -95,6 +95,28 @@ namespace WebAPI.BLL
         }
         #endregion
 
+        #region TempUserOTPCreate
+        /// <summary>
+        /// TempUserOTPCreate
+        /// </summary>
+        /// <param name="tempUser"></param>
+        /// <returns></returns>
+        public OTPDomain TempUserOTPCreate(UserDomain tempUser)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@Username", tempUser.UserName);
+            param.Add("@Password", tempUser.Password);
+            param.Add("@Email", tempUser.Email);
+            param.Add("@FirstName", tempUser.FirstName);
+            param.Add("@LastName", tempUser.LastName);
+            param.Add("@MobileNumber", tempUser.MobileNumber);
+            param.Add("@UserTypeID", tempUser.UserTypeID);
+
+            return _iDALRepository.Select<OTPDomain>("[dbo].[TempUserOTPCreate]", param).FirstOrDefault();
+        }
+        #endregion
+
         #region ChangePassword
         /// <summary>
         /// ChangePassword
@@ -129,6 +151,23 @@ namespace WebAPI.BLL
             UserNameExistsDomain user = _iDALRepository.Select<UserNameExistsDomain>("[dbo].[UserByUsernameSelect]", param).FirstOrDefault();
 
             return user.UserNameExists;
+        }
+        #endregion
+
+        #region ValidateOTP
+        /// <summary>
+        /// ValidateOTP
+        /// </summary>
+        /// <param name="otp"></param>
+        /// <returns></returns>
+        public SignInResponseDomain ValidateOTP(SubmitOTPDomain otp)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@OTP", otp.OTP);
+            param.Add("@UserID", otp.UserID);
+
+            return _iDALRepository.Select<SignInResponseDomain>("[dbo].[OTPByUserIDSelect]", param).FirstOrDefault();
         }
         #endregion
 
