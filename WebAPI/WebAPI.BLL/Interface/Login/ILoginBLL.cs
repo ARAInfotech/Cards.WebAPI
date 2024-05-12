@@ -1,4 +1,5 @@
 ﻿#region NameSpace
+using WebAPI.Domain;
 using WebApp.Domain;
 #endregion
 
@@ -57,6 +58,24 @@ namespace WebAPI.BLL.Interface.Login
         /// <param name="username"></param>
         /// <returns></returns>
         bool UsernameExists(string username);
+        #endregion
+
+        #region TempUserOTPCreate
+        /// <summary>
+        /// TempUserOTPCreate
+        /// </summary>
+        /// <param name="tempUser"></param>
+        /// <returns></returns>
+        OTPDomain TempUserOTPCreate(UserDomain tempUser);
+        #endregion
+
+        #region ValidateOTP
+        /// <summary>
+        /// ValidateOTP
+        /// </summary>
+        /// <param name="otp"></param>
+        /// <returns></returns>
+        SignInResponseDomain ValidateOTP(SubmitOTPDomain otp);
         #endregion
     }
     #endregion

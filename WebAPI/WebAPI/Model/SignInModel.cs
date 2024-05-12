@@ -52,23 +52,9 @@ namespace WebAPI.Model
         public string MobileNumber { get; set; }
         #endregion
 
-        #region EncCreatedBy
-        /// <summary>
-        /// EncryptedCreatedBy
-        /// </summary>
-        public string EncCreatedBy { get; set; }
-        #endregion
-
-        #region CreatedDate
-        /// <summary>
-        /// CreatedDate
-        /// </summary>
-        public DateTime CreatedDate { get; set; }
-        #endregion
-
         #region EncUserTypeID
         /// <summary>
-        /// EncUserTypeID
+        /// EncryptrdUserTypeID
         /// </summary>
         public string EncUserTypeID { get; set; }
         #endregion

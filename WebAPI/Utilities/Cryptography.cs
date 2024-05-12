@@ -15,6 +15,12 @@ namespace Utilities
     /// </summary>
     public static class Cryptography
     {
+        #region Variables
+        static byte[] key = null;
+
+        static byte[] iv = null;
+        #endregion
+
         #region Public Methods
 
         #region EncryptPassword
@@ -173,6 +179,27 @@ namespace Utilities
             }
 
             return decryptedString.ToString();
+        }
+        #endregion
+
+        #region DecryptInput
+        /// <summary>
+        /// DecryptInput
+        /// </summary>
+        public static string DecryptInput(this string value)
+        {
+            DESCryptoServiceProvider desSprovider = new DESCryptoServiceProvider();
+            Encoding utf1 = new UTF8Encoding();
+            key = utf1.GetBytes("sz83kd75");
+            iv = utf1.GetBytes("MTIzNDU2Nzg=");
+            ICryptoTransform decryptor = desSprovider.CreateDecryptor(key, iv);
+
+            Encoding utf = new UTF8Encoding();
+            value = value.Replace(" ", "+").Replace("'", "");
+
+            byte[] bEncrypt = Convert.FromBase64String(value);
+            byte[] bDecrupt = decryptor.TransformFinalBlock(bEncrypt, 0, bEncrypt.Length);
+            return utf.GetString(bDecrupt);
         }
         #endregion
 
