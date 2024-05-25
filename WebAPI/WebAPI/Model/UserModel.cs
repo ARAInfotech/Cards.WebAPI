@@ -93,6 +93,13 @@ namespace WebAPI.Model
         /// </summary>
         public string Token { get; set; }
         #endregion
+
+        #region UserTypeID
+        /// <summary>
+        /// UserTypeID
+        /// </summary>
+        public long UserTypeID { get; set; }
+        #endregion
     }
     #endregion
 }

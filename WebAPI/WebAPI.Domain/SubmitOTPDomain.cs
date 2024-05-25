@@ -23,6 +23,13 @@ namespace WebAPI.Domain
         /// </summary>
         public string OTP { get; set; }
         #endregion
+
+        #region ID
+        /// <summary>
+        /// ID
+        /// </summary>
+        public long ID { get; set; }
+        #endregion
     }
     #endregion
 }
