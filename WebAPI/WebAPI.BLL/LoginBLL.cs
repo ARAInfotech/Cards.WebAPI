@@ -6,6 +6,7 @@ using WebAPI.DAL;
 using WebAPI.DAL.Interface;
 using WebAPI.Domain;
 using WebApp.Domain;
+using static System.Net.WebRequestMethods;
 #endregion
 
 namespace WebAPI.BLL
@@ -148,19 +149,19 @@ namespace WebAPI.BLL
 
             param.Add("@Username", username); 
             
-            UserNameExistsDomain user = _iDALRepository.Select<UserNameExistsDomain>("[dbo].[UserByUsernameSelect]", param).FirstOrDefault();
+            UserNameExistsDomain user = _iDALRepository.Select<UserNameExistsDomain>("[dbo].[UsernameExistsSelect]", param).FirstOrDefault();
 
             return user.UserNameExists;
         }
         #endregion
 
-        #region ValidateOTP
+        #region ValidateSignInOTP
         /// <summary>
-        /// ValidateOTP
+        /// ValidateSignInOTP
         /// </summary>
         /// <param name="otp"></param>
         /// <returns></returns>
-        public SignInResponseDomain ValidateOTP(SubmitOTPDomain otp)
+        public SignInResponseDomain ValidateSignInOTP(SubmitOTPDomain otp)
         {
             DynamicParameters param = new DynamicParameters();
 
@@ -168,6 +169,91 @@ namespace WebAPI.BLL
             param.Add("@UserID", otp.UserID);
 
             return _iDALRepository.Select<SignInResponseDomain>("[dbo].[OTPByUserIDSelect]", param).FirstOrDefault();
+        }
+        #endregion
+
+        #region GenerateForgotPasswordOTP
+        /// <summary>
+        /// GenerateForgotPasswordOTP
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public OTPDomain GenerateForgotPasswordOTP(string email)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@email", email);
+
+            return _iDALRepository.Select<OTPDomain>("[dbo].[OTPByEmailSelect]", param).FirstOrDefault();
+        }
+        #endregion
+
+        #region ValidateForgotPasswordOTP
+        /// <summary>
+        /// ValidateForgotPasswordOTP
+        /// </summary>
+        /// <param name="otp"></param>
+        /// <returns></returns>
+        public SignInResponseDomain ValidateForgotPasswordOTP(SubmitOTPDomain otp)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@OTP", otp.OTP);
+            param.Add("@ID", otp.ID);
+
+            return _iDALRepository.Select<SignInResponseDomain>("[dbo].[OTPByIDSelect]", param).FirstOrDefault();
+        }
+        #endregion
+
+        #region GetUserDetailsByOTPID
+        /// <summary>
+        /// GetUserDetailsByOTPID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public UserDomain GetUserDetailsByOTPID(long id)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@OTPID", id);
+
+            return _iDALRepository.Select<UserDomain>("[dbo].[UserByOTPIDSelect]", param).FirstOrDefault();
+        }
+        #endregion
+
+        #region UserPasswordReset
+        /// <summary>
+        /// UserPasswordReset
+        /// </summary>
+        /// <param name="dom"></param>
+        /// <returns></returns>
+        public ResetPasswordResponseDomain UserPasswordReset(ResetPasswordDomain dom)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@UserID", dom.UserID);
+            param.Add("@RequestGeneratedTime", dom.RequestGeneratedTime);
+            param.Add("@Email", dom.Email);
+            param.Add("@Password", dom.Password);
+            param.Add("@CurrentTime", DateTime.Now);
+
+            return _iDALRepository.Select<ResetPasswordResponseDomain>("[dbo].[UserByUserIDPasswordUpdate]", param).FirstOrDefault();
+        }
+        #endregion
+
+        #region GetUserDetailsByUserID
+        /// <summary>
+        /// GetUserDetailsByUserID
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public UserDomain GetUserDetailsByUserID(long userID)
+        {
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@UserID", userID);
+
+            return _iDALRepository.Select<UserDomain>("[dbo].[UserByUserIDSelect]", param).FirstOrDefault();
         }
         #endregion
 

@@ -23,6 +23,13 @@ namespace WebAPI.Model
         /// </summary>
         public string OTP { get; set; }
         #endregion
+
+        #region ID
+        /// <summary>
+        /// ID
+        /// </summary>
+        public string ID { get; set; }
+        #endregion
     }
     #endregion
 }

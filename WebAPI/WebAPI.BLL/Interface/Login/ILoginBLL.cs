@@ -69,13 +69,58 @@ namespace WebAPI.BLL.Interface.Login
         OTPDomain TempUserOTPCreate(UserDomain tempUser);
         #endregion
 
-        #region ValidateOTP
+        #region ValidateSignInOTP
         /// <summary>
-        /// ValidateOTP
+        /// ValidateSignInOTP
         /// </summary>
         /// <param name="otp"></param>
         /// <returns></returns>
-        SignInResponseDomain ValidateOTP(SubmitOTPDomain otp);
+        SignInResponseDomain ValidateSignInOTP(SubmitOTPDomain otp);
+        #endregion
+
+        #region GenerateForgotPasswordOTP
+        /// <summary>
+        /// GenerateForgotPasswordOTP
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        OTPDomain GenerateForgotPasswordOTP(string email);
+        #endregion
+
+        #region ValidateForgotPasswordOTP
+        /// <summary>
+        /// ValidateForgotPasswordOTP
+        /// </summary>
+        /// <param name="otp"></param>
+        /// <returns></returns>
+        SignInResponseDomain ValidateForgotPasswordOTP(SubmitOTPDomain otp);
+        #endregion
+
+        #region GetUserDetailsByOTPID
+        /// <summary>
+        /// GetUserDetailsByOTPID
+        /// </summary>
+        /// <param name="iD"></param>
+        /// <returns></returns>
+        UserDomain GetUserDetailsByOTPID(long id);
+        #endregion
+
+        #region GetUserDetailsByUserID
+        /// <summary>
+        /// GetUserDetailsByUserID
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        UserDomain GetUserDetailsByUserID(long userID);
+        #endregion
+
+        #region UserPasswordReset
+        /// <summary>
+        /// UserPasswordReset
+        /// </summary>
+        /// <param name="dom"></param>
+        /// <returns></returns>
+        ResetPasswordResponseDomain UserPasswordReset(ResetPasswordDomain dom);
         #endregion
     }
     #endregion
