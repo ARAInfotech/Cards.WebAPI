@@ -7,6 +7,7 @@ using WebAPI.BLL;
 using WebAPI.BLL.DI;
 using WebAPI.BLL.Interface;
 using WebAPI.BLL.Interface.Login;
+using WebAPI.BLL.Interface.Product;
 using WebAPI.Helpers;
 using WebAPI.Middleware;
 
@@ -31,6 +32,7 @@ builder.Services.AddSingleton<ConfigManager.Interfaces.IConfigurationManager, We
 builder.Services.AddTokenAuthentication(new WebConfigManager(builder.Configuration));
 builder.Services.AddScoped<IWeatherForecast, WeatherForecastBLL>();
 builder.Services.AddScoped<ILoginBLL, LoginBLL>();
+builder.Services.AddScoped<IProductBLL, ProductBLL>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
