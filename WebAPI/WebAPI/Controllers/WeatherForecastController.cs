@@ -8,6 +8,9 @@ using WebApp.Domain;
 using Utilities;
 using WebAPI.BLL.Interface;
 using Microsoft.AspNetCore.Authorization;
+using WebAPI.Domain;
+using CommunicationManager;
+using CommunicationManager.Interface;
 
 namespace WebAPI.Controllers
 {
@@ -36,10 +39,18 @@ namespace WebAPI.Controllers
         public ConfigManager.Interfaces.IConfigurationManager _configurationManager;
         #endregion
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, ConfigManager.Interfaces.IConfigurationManager configurationManager)
+        #region EmailManager
+        /// <summary>
+        /// EmailManager
+        /// </summary>
+        IEmailManager _email;
+        #endregion
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ConfigManager.Interfaces.IConfigurationManager configurationManager, IEmailManager email)
         {
             _logger = logger;
             _configurationManager = configurationManager;
+            _email = email;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -75,6 +86,24 @@ namespace WebAPI.Controllers
             }
 
             return response;
+        }
+        #endregion
+
+        #region TestMail
+        [HttpGet("TestMail")]
+        public APIReturnModel<bool> TestMail()
+        {
+            APIReturnModel<bool> resp = new APIReturnModel<bool>();
+
+            EmailDomain dom = new EmailDomain();
+            dom.FromAddress = _configurationManager.GetEmailConfig("FromMailAddress");
+            dom.ToAddress = "r.ajith869@gmail.com";
+            dom.Subject = "Test email";
+            dom.Body = "Test email body";
+
+            _email.SendMail(dom);
+
+            return resp;
         }
         #endregion
 

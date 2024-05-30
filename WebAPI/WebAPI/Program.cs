@@ -1,12 +1,12 @@
+using CommunicationManager;
+using CommunicationManager.Interface;
 using ConfigManager;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 using WebAPI.BLL;
 using WebAPI.BLL.DI;
 using WebAPI.BLL.Interface;
 using WebAPI.BLL.Interface.Login;
+using WebAPI.BLL.Interface.User;
 using WebAPI.BLL.Interface.Product;
 using WebAPI.Helpers;
 using WebAPI.Middleware;
@@ -30,8 +30,10 @@ builder.Services.AddAuthorization();
 builder.Services.AddControllers(options => options.Filters.Add(new HttpResponseExceptionFilter()));
 builder.Services.AddSingleton<ConfigManager.Interfaces.IConfigurationManager, WebConfigManager>();
 builder.Services.AddTokenAuthentication(new WebConfigManager(builder.Configuration));
+builder.Services.AddScoped<IEmailManager, EmailManager>();
 builder.Services.AddScoped<IWeatherForecast, WeatherForecastBLL>();
 builder.Services.AddScoped<ILoginBLL, LoginBLL>();
+builder.Services.AddScoped<IUserBLL, UserBLL>();
 builder.Services.AddScoped<IProductBLL, ProductBLL>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
