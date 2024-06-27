@@ -142,21 +142,21 @@ namespace WebAPI.Controllers
         }
         #endregion
 
-        #region ProductDeteailsById
+        #region GetProductDetailsById
         /// <summary>
-        /// ProductDeteailsById
+        /// GetProductDetailsById
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        [HttpGet("ProductDeteailsById")]
-        public APIReturnModel<ProductModel> GetProductDeteailsById(string Id)
+        [HttpGet("GetProductDetailsById")]
+        public APIReturnModel<ProductModel> GetProductDetailsById(string Id)
         {
             APIReturnModel<ProductModel> response = new APIReturnModel<ProductModel>();
             bool status = false;
 
             if (!string.IsNullOrEmpty(Id) && Id.DecryptToLong() > 0)
             {
-                var product = this._productBll.GetProductDeteailsById(Id.DecryptToLong());
+                var product = this._productBll.GetProductDetailsById(Id.DecryptToLong());
                 if (product != null)
                 {
                     ProductModel productModel = this.MapProductDomainToProductModel(product);
@@ -176,17 +176,17 @@ namespace WebAPI.Controllers
         }
         #endregion
 
-        #region GetAllProductDeteail
+        #region GetAllProductDetails
         /// <summary>
-        /// GetAllProductDeteail
+        /// GetAllProductDetails
         /// </summary>
         /// <returns></returns>
-        [HttpGet("GetAllProductDeteail")]
-        public APIReturnModel<List<ProductModel>> GetAllProductDeteail()
+        [HttpGet("GetAllProductDetails")]
+        public APIReturnModel<List<ProductModel>> GetAllProductDetails()
         {
             APIReturnModel<List<ProductModel>> response = new APIReturnModel<List<ProductModel>>();
 
-            List<ProductDomain> product = this._productBll.GetAllProductDeteail();
+            List<ProductDomain> product = this._productBll.GetAllProductDetails();
             if (product.Count > 0)
             {
                 List<ProductModel> productModel = this.MapProductDomainListToProductModelList(product);
@@ -278,9 +278,12 @@ namespace WebAPI.Controllers
                     Description = dom.Description,
                     Url = dom.Url,
                     CategoryId = dom.CategoryId,
+                    CategoryName = dom.CategoryName,
                     Rate = dom.Rate,
                     ModifiedBy = dom.ModifiedBy.Encrypt(),
-                    ModifiedDate = dom.ModifiedDate
+                    ModifiedDate = dom.ModifiedDate,
+                    CreatedByName = dom.CreatedByName,
+                    ModifiedByName = dom.ModifiedByName
                 });
             }
 
