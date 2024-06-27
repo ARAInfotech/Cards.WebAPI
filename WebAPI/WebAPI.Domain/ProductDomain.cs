@@ -41,6 +41,13 @@
         public long CategoryId { get; set; }
         #endregion
 
+        #region CategoryName
+        /// <summary>
+        /// CategoryName
+        /// </summary>
+        public string CategoryName { get; set; }
+        #endregion
+
         #region Rate
         /// <summary>
         /// Rate
@@ -55,6 +62,13 @@
         public long CreatedBy { get; set; }
         #endregion
 
+        #region CreatedByName
+        /// <summary>
+        /// CreatedByName
+        /// </summary>
+        public string CreatedByName { get; set; }
+        #endregion
+
         #region CreatedDate
         /// <summary>
         /// CreatedDate
@@ -67,6 +81,13 @@
         /// ModifiedBy
         /// </summary>
         public long ModifiedBy { get; set; }
+        #endregion
+
+        #region ModifiedByName
+        /// <summary>
+        /// ModifiedByName
+        /// </summary>
+        public string ModifiedByName { get; set; }
         #endregion
 
         #region ModifiedDate
