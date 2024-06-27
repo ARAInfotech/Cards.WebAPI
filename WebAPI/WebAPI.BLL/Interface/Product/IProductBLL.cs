@@ -33,20 +33,20 @@ namespace WebAPI.BLL.Interface.Product
         bool DeleteProduct(long productId);
         #endregion
 
-        #region ProductDeteailsById
+        #region GetProductDetailsById
         /// <summary>
-        /// ProductDeteailsById
+        /// GetProductDetailsById
         /// </summary>
         /// <returns></returns>
-        ProductDomain GetProductDeteailsById(long productId);
+        ProductDomain GetProductDetailsById(long productId);
         #endregion
 
-        #region GetAllProductDeteail
+        #region GetAllProductDetails
         /// <summary>
-        /// GetAllProductDeteail
+        /// GetAllProductDetails
         /// </summary>
         /// <returns></returns>
-        List<ProductDomain> GetAllProductDeteail();
+        List<ProductDomain> GetAllProductDetails();
         #endregion
     }
     #endregion

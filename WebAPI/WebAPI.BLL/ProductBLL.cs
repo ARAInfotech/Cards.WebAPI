@@ -48,7 +48,6 @@ namespace WebAPI.BLL
             param.Add("@CreatedBy", product.CreatedBy);
             param.Add("@CreatedDate", product.CreatedDate);
 
-
             return _iDALRepository.Add("[dbo].[ProductCreate]", param);
         }
 
@@ -60,17 +59,17 @@ namespace WebAPI.BLL
             return _iDALRepository.Add("[dbo].[ProductDelete]", param);
         }
 
-        public List<ProductDomain> GetAllProductDeteail()
+        public List<ProductDomain> GetAllProductDetails()
         {
-            return _iDALRepository.SelectAll<ProductDomain>("[dbo].[ProductAllDeteailsSelect]");
+            return _iDALRepository.SelectAll<ProductDomain>("[dbo].[ProductAllDetailsSelect]");
         }
 
-        public ProductDomain GetProductDeteailsById(long productId)
+        public ProductDomain GetProductDetailsById(long productId)
         {
             DynamicParameters param = new DynamicParameters();
             param.Add("@ProductId", productId);
 
-            return _iDALRepository.Select<ProductDomain>("[dbo].[ProductDeteailsByIdSelect]", param).FirstOrDefault();
+            return _iDALRepository.Select<ProductDomain>("[dbo].[ProductDetailsByIdSelect]", param).FirstOrDefault();
         }
 
         public bool UpdateProduct(ProductDomain product)
