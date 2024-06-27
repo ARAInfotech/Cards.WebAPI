@@ -1,22 +1,15 @@
-﻿#region NameSpace
+﻿#region Namespace
 using System;
 #endregion
 
-namespace WebApp.Domain
+namespace WebAPI.Model
 {
-    #region UserDomain
+    #region SignInModel
     /// <summary>
-    /// UserDomain
+    /// SignInModel
     /// </summary>
-    public class UserDomain
+    public class SignInModel
     {
-        #region UserID
-        /// <summary>
-        /// UserID
-        /// </summary>
-        public long UserID { get; set; }
-        #endregion
-
         #region UserName
         /// <summary>
         /// UserName
@@ -59,39 +52,11 @@ namespace WebApp.Domain
         public string MobileNumber { get; set; }
         #endregion
 
-        #region CreatedBy
+        #region EncUserTypeID
         /// <summary>
-        /// CreatedBy
+        /// EncryptrdUserTypeID
         /// </summary>
-        public long CreatedBy { get; set; }
-        #endregion
-
-        #region CreatedDate
-        /// <summary>
-        /// CreatedDate
-        /// </summary>
-        public DateTime CreatedDate { get; set; }
-        #endregion
-
-        #region ModifiedBy
-        /// <summary>
-        /// ModifiedBy
-        /// </summary>
-        public long ModifiedBy { get; set; }
-        #endregion
-
-        #region ModifiedDate
-        /// <summary>
-        /// ModifiedDate
-        /// </summary>
-        public DateTime ModifiedDate { get; set; }
-        #endregion
-
-        #region UserTypeID
-        /// <summary>
-        /// UserTypeID
-        /// </summary>
-        public long UserTypeID { get; set; }
+        public string EncUserTypeID { get; set; }
         #endregion
     }
     #endregion

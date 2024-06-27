@@ -1,62 +1,58 @@
-﻿#region NameSpace
-using System;
-#endregion
-
-namespace WebApp.Domain
+﻿namespace WebAPI.Domain
 {
-    #region UserDomain
+    #region ProductDomain
     /// <summary>
     /// UserDomain
     /// </summary>
-    public class UserDomain
+    public class ProductDomain
     {
-        #region UserID
+        #region ProductId
         /// <summary>
-        /// UserID
+        /// ProductId
         /// </summary>
-        public long UserID { get; set; }
+        public long ProductId { get; set; }
         #endregion
 
-        #region UserName
+        #region Name
         /// <summary>
-        /// UserName
+        /// Name
         /// </summary>
-        public string UserName { get; set; }
+        public string Name { get; set; } = string.Empty;
         #endregion
 
-        #region Password
+        #region Description
         /// <summary>
-        /// Password
+        /// Description
         /// </summary>
-        public string Password { get; set; }
+        public string Description { get; set; } = string.Empty;
         #endregion
 
-        #region Email
+        #region Url
         /// <summary>
-        /// Email
+        /// Url
         /// </summary>
-        public string Email { get; set; }
+        public string Url { get; set; } = string.Empty;
         #endregion
 
-        #region FirstName
+        #region CategoryId
         /// <summary>
-        /// FirstName
+        /// CategoryId
         /// </summary>
-        public string FirstName { get; set; }
+        public long CategoryId { get; set; }
         #endregion
 
-        #region LastName
+        #region CategoryName
         /// <summary>
-        /// LastName
+        /// CategoryName
         /// </summary>
-        public string LastName { get; set; }
+        public string CategoryName { get; set; }
         #endregion
 
-        #region MobileNumber
+        #region Rate
         /// <summary>
-        /// MobileNumber
+        /// Rate
         /// </summary>
-        public string MobileNumber { get; set; }
+        public decimal Rate { get; set; }
         #endregion
 
         #region CreatedBy
@@ -64,6 +60,13 @@ namespace WebApp.Domain
         /// CreatedBy
         /// </summary>
         public long CreatedBy { get; set; }
+        #endregion
+
+        #region CreatedByName
+        /// <summary>
+        /// CreatedByName
+        /// </summary>
+        public string CreatedByName { get; set; }
         #endregion
 
         #region CreatedDate
@@ -80,18 +83,18 @@ namespace WebApp.Domain
         public long ModifiedBy { get; set; }
         #endregion
 
+        #region ModifiedByName
+        /// <summary>
+        /// ModifiedByName
+        /// </summary>
+        public string ModifiedByName { get; set; }
+        #endregion
+
         #region ModifiedDate
         /// <summary>
         /// ModifiedDate
         /// </summary>
         public DateTime ModifiedDate { get; set; }
-        #endregion
-
-        #region UserTypeID
-        /// <summary>
-        /// UserTypeID
-        /// </summary>
-        public long UserTypeID { get; set; }
         #endregion
     }
     #endregion

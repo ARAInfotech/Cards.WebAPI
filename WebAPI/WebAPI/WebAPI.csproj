@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="StyleCop.MSBuild" Version="6.2.0">
       <PrivateAssets>all</PrivateAssets>
@@ -17,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommunicationManager\CommunicationManager.csproj" />
     <ProjectReference Include="..\ConfigManager\ConfigManager.csproj" />
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
     <ProjectReference Include="..\WebAPI.BLL\WebAPI.BLL.csproj" />

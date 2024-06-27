@@ -4,17 +4,17 @@ using System;
 
 namespace WebAPI.Model
 {
-    #region LoginModel
+    #region ResetPasswordModel
     /// <summary>
-    /// LoginModel
+    /// ResetPasswordModel
     /// </summary>
-    public class LoginModel
+    public class ResetPasswordModel
     {
-        #region Username
+        #region ID
         /// <summary>
-        /// Username
+        /// ID
         /// </summary>
-        public string Username { get; set; }
+        public string ID { get; set; }
         #endregion
 
         #region Password
