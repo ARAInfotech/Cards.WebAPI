@@ -1,44 +1,17 @@
-﻿namespace WebAPI.Domain
+﻿namespace WebAPI.Model
 {
-    #region ProductDomain
+
+    #region CategoryModel
     /// <summary>
-    /// ProductDomain
+    /// CategoryModel
     /// </summary>
-    public class ProductDomain
+    public class CategoryModel
     {
-        #region ProductId
-        /// <summary>
-        /// ProductId
-        /// </summary>
-        public long ProductId { get; set; }
-        #endregion
-
-        #region Name
-        /// <summary>
-        /// Name
-        /// </summary>
-        public string Name { get; set; } = string.Empty;
-        #endregion
-
-        #region Description
-        /// <summary>
-        /// Description
-        /// </summary>
-        public string Description { get; set; } = string.Empty;
-        #endregion
-
-        #region Url
-        /// <summary>
-        /// Url
-        /// </summary>
-        public string Url { get; set; } = string.Empty;
-        #endregion
-
         #region CategoryId
         /// <summary>
         /// CategoryId
         /// </summary>
-        public long CategoryId { get; set; }
+        public string CategoryId { get; set; }
         #endregion
 
         #region CategoryName
@@ -48,25 +21,25 @@
         public string CategoryName { get; set; }
         #endregion
 
-        #region Rate
+        #region Description
         /// <summary>
-        /// Rate
+        /// Description
         /// </summary>
-        public decimal Rate { get; set; }
+        public string Description { get; set; } = string.Empty;
         #endregion
 
         #region CreatedBy
         /// <summary>
         /// CreatedBy
         /// </summary>
-        public long CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         #endregion
 
         #region CreatedByName
         /// <summary>
         /// CreatedByName
         /// </summary>
-        public string CreatedByName { get; set; }
+        public string? CreatedByName { get; set; }
         #endregion
 
         #region CreatedDate
@@ -80,14 +53,14 @@
         /// <summary>
         /// ModifiedBy
         /// </summary>
-        public long ModifiedBy { get; set; }
+        public string? ModifiedBy { get; set; }
         #endregion
 
         #region ModifiedByName
         /// <summary>
         /// ModifiedByName
         /// </summary>
-        public string ModifiedByName { get; set; }
+        public string? ModifiedByName { get; set; }
         #endregion
 
         #region ModifiedDate
@@ -96,6 +69,7 @@
         /// </summary>
         public DateTime ModifiedDate { get; set; }
         #endregion
+
     }
     #endregion
 }
