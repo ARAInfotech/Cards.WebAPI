@@ -1,39 +1,17 @@
-﻿namespace WebAPI.Domain
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace WebAPI.Domain
 {
-    #region ProductDomain
+    #region CategoryDomain
     /// <summary>
-    /// ProductDomain
+    /// CategoryDomain
     /// </summary>
-    public class ProductDomain
+    public class CategoryDomain
     {
-        #region ProductId
-        /// <summary>
-        /// ProductId
-        /// </summary>
-        public long ProductId { get; set; }
-        #endregion
-
-        #region Name
-        /// <summary>
-        /// Name
-        /// </summary>
-        public string Name { get; set; } = string.Empty;
-        #endregion
-
-        #region Description
-        /// <summary>
-        /// Description
-        /// </summary>
-        public string Description { get; set; } = string.Empty;
-        #endregion
-
-        #region Url
-        /// <summary>
-        /// Url
-        /// </summary>
-        public string Url { get; set; } = string.Empty;
-        #endregion
-
         #region CategoryId
         /// <summary>
         /// CategoryId
@@ -48,11 +26,11 @@
         public string CategoryName { get; set; }
         #endregion
 
-        #region Rate
+        #region Description
         /// <summary>
-        /// Rate
+        /// Description
         /// </summary>
-        public decimal Rate { get; set; }
+        public string Description { get; set; } = string.Empty;
         #endregion
 
         #region CreatedBy
@@ -66,7 +44,7 @@
         /// <summary>
         /// CreatedByName
         /// </summary>
-        public string CreatedByName { get; set; }
+        public string? CreatedByName { get; set; }
         #endregion
 
         #region CreatedDate
@@ -87,7 +65,7 @@
         /// <summary>
         /// ModifiedByName
         /// </summary>
-        public string ModifiedByName { get; set; }
+        public string? ModifiedByName { get; set; }
         #endregion
 
         #region ModifiedDate
@@ -96,6 +74,7 @@
         /// </summary>
         public DateTime ModifiedDate { get; set; }
         #endregion
+
     }
     #endregion
 }
