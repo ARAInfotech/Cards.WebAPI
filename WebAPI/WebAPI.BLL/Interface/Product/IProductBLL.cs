@@ -48,6 +48,15 @@ namespace WebAPI.BLL.Interface.Product
         /// <returns></returns>
         List<ProductDomain> GetAllProductDetails();
         #endregion
+
+        #region GetImageDetailsByID
+        /// <summary>
+        /// GetImageDetailsByID
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        List<ProductImageDomain> GetImageDetailsByID(long productID);
+        #endregion
     }
     #endregion
 }

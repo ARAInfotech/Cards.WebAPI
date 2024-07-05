@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using Utilities;
 using WebAPI.BLL.Interface.Product;
@@ -114,7 +115,7 @@ namespace WebAPI.Controllers
         /// DeleteProduct
         /// </summary>
         /// <returns></returns>
-        [HttpDelete("DeleteProduct")]
+        [HttpDelete("DeleteProductByID")]
         public APIReturnModel<string> DeleteProduct(string Id)
         {
             APIReturnModel<string> response = new APIReturnModel<string>();
@@ -201,6 +202,33 @@ namespace WebAPI.Controllers
             return response;
         }
         #endregion
+
+        #region getAllImageURLByID
+        /// <summary>
+        /// getAllImageURLByID
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        [HttpGet("getAllImageURLByID")]
+        public APIReturnModel<List<ProductImageDomain>> getAllImageURLByID(string productID)
+        {
+            APIReturnModel<List<ProductImageDomain>> response = new APIReturnModel<List<ProductImageDomain>>();
+
+            if (!string.IsNullOrEmpty(productID))
+            {
+                List<ProductImageDomain> imageDetails = this._productBll.GetImageDetailsByID(productID.DecryptToLong());
+
+                response = ReturnData.SuccessResponse(imageDetails);
+            }
+            else
+            {
+                response = ReturnData.InvalidRequestResponse<List<ProductImageDomain>>();
+            }
+
+            return response;
+        }
+        #endregion
+
         #endregion
 
         #region Private Methods

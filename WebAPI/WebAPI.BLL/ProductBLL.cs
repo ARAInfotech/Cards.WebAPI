@@ -64,6 +64,21 @@ namespace WebAPI.BLL
             return _iDALRepository.SelectAll<ProductDomain>("[dbo].[ProductAllDetailsSelect]");
         }
 
+        #region GetImageDetailsByID
+        /// <summary>
+        /// GetImageDetailsByID
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        public List<ProductImageDomain> GetImageDetailsByID(long productID)
+        {
+            DynamicParameters param = new DynamicParameters();
+            param.Add("@ProductID", productID);
+
+            return _iDALRepository.Select<ProductImageDomain>("[dbo].[ProductImageDetailsSelect]", param);
+        }
+        #endregion
+
         public ProductDomain GetProductDetailsById(long productId)
         {
             DynamicParameters param = new DynamicParameters();
